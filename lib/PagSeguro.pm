@@ -164,7 +164,7 @@ Thiago Rondon. L<thiago@nsms.com.br>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2006-2011 by NSMS, http://www.nsms.com.br/
+Copyright 2011 by NSMS, http://www.nsms.com.br/
 
 L<http://www.nsms.com.br>
 

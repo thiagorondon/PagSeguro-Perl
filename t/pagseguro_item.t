@@ -6,16 +6,16 @@ use Test::Exception;
 use PagSeguro::Item;
 
 
-throws_ok { PagSeguro::Item->new } qr/id/, 'Throws as "without required"
+throws_ok { PagSeguro::Item->new } qr/quant/, 'Throws as "without required"
 attrs';
 
 my $obj = new PagSeguro::Item(
     id => 1,
-    descricao => 'Foo',
-    quantidade => 1,
+    descr => 'Foo',
+    quant => 1,
     valor => 100);
 
-for my $item (qw[id descricao quantidade valor]) {
+for my $item (qw[id descr quant valor]) {
     ok( $obj->can($item) );
 }
 

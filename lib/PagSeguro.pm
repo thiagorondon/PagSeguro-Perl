@@ -14,43 +14,45 @@ use namespace::autoclean;
 our $VERSION = '0.001';
 
 has 'items' => (
-    is => 'ro',
-    isa => 'ArrayRef[PagSeguro::Item]',
-    traits => ['Array'],
-    default => sub { [ ] },
+    is      => 'ro',
+    isa     => 'ArrayRef[PagSeguro::Item]',
+    traits  => ['Array'],
+    default => sub { [] },
     handles => {
-        all_items => 'elements',
-        add_items => 'push',
+        all_items   => 'elements',
+        add_items   => 'push',
         count_items => 'count',
     }
 );
 
 has url_action => (
-    is => 'ro',
-    isa => 'Str',
+    is      => 'ro',
+    isa     => 'Str',
     default => 'https://pagseguro.uol.com.br/checkout/checkout.jhtml'
 );
 
 has form_name => (
-    is => 'rw',
-    isa => 'Str',
+    is      => 'rw',
+    isa     => 'Str',
     default => 'pagseguro'
 );
 
 has image_submit => (
-    is => 'rw',
+    is  => 'rw',
     isa => 'Str',
-    default => 'https://p.simg.uol.com.br/out/pagseguro/i/botoes/pagamentos/99x61-pagar-assina.gif' 
+    default =>
+'https://p.simg.uol.com.br/out/pagseguro/i/botoes/pagamentos/99x61-pagar-assina.gif'
 );
 
 has zoom => (
-    is => 'ro',
-    isa => 'HTML::Zoom',
-    lazy => 1,
+    is      => 'ro',
+    isa     => 'HTML::Zoom',
+    lazy    => 1,
     default => sub {
         my $self = shift;
-        my ($form_name, $url_action) = ($self->form_name, $self->url_action);
-    HTML::Zoom->from_html(<<HTML);
+        my ( $form_name, $url_action ) =
+          ( $self->form_name, $self->url_action );
+        HTML::Zoom->from_html(<<HTML);
 <form class="$form_name" action="$url_action">
 <input />
 </form>
@@ -59,36 +61,47 @@ HTML
 );
 
 has fields => (
-    is => 'ro',
-    isa => 'ArrayRef[Any]',
-    lazy => 1,
+    is         => 'ro',
+    isa        => 'ArrayRef[Any]',
+    lazy       => 1,
     auto_deref => 1,
-    default => sub {
+    default    => sub {
         my $self = shift;
         my @fields;
-        map { 
-            push( @fields, 
-             { name => $_, type => 'hidden', value => $self->$_ } ) 
-                if $self->$_;
-        } (qw[url_action email_cobranca tipo_carrinho tipo_frete moeda
-            cliente_nome cliente_cep cliente_end cliente_num cliente_compl
-            cliente_bairro cliente_cidade cliente_uf cliente_pais cliente_ddd
-            cliente_tel cliente_email]);
+        map {
+            push( @fields,
+                { name => $_, type => 'hidden', value => $self->$_ } )
+              if $self->$_;
+          } (
+            qw[url_action email_cobranca tipo_carrinho tipo_frete moeda
+              cliente_nome cliente_cep cliente_end cliente_num cliente_compl
+              cliente_bairro cliente_cidade cliente_uf cliente_pais cliente_ddd
+              cliente_tel cliente_email]
+          );
 
         my $loop = 0;
         map {
             $loop++;
             my $item = $_;
-            push ( @fields, {
-                    name => join('_', 'item', $_, $loop ),
-                    type => 'hidden',
+            push(
+                @fields,
+                {
+                    name  => join( '_', 'item', $_, $loop ),
+                    type  => 'hidden',
                     value => $item->$_
-                }) for (qw[id descr quant valor frete peso]) ;
+                }
+            ) for (qw[id descr quant valor frete peso]);
 
         } $self->all_items;
 
-        push(@fields, { name => 'submit', type => 'hidden', value =>
-            $self->image_submit } );
+        push(
+            @fields,
+            {
+                name  => 'submit',
+                type  => 'hidden',
+                value => $self->image_submit
+            }
+        );
 
         return \@fields;
     }
@@ -96,17 +109,20 @@ has fields => (
 
 sub make_form {
     my $self = shift;
-    
-    my $form = $self->zoom->select('.' . $self->form_name)->repeat_content([
-        map { my $field = $_; sub {
-                $_->select('input')
-                 ->add_to_attribute( name => $field->{name} )
-                 ->then
-                 ->add_to_attribute( type => $field->{type} )
-                 ->then
-                 ->add_to_attribute( value => $field->{value} )
-                } } $self->fields
-            ])->to_html;
+
+    my $form = $self->zoom->select( '.' . $self->form_name )->repeat_content(
+        [
+            map {
+                my $field = $_;
+                sub {
+                    $_->select('input')
+                      ->add_to_attribute( name => $field->{name} )
+                      ->then->add_to_attribute( type  => $field->{type} )
+                      ->then->add_to_attribute( value => $field->{value} );
+                  }
+              } $self->fields
+        ]
+    )->to_html;
 
     return $form;
 }

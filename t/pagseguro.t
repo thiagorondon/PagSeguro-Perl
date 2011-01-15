@@ -11,9 +11,9 @@ use PagSeguro::Item;
 lives_ok { PagSeguro->new( email_cobranca => 'thiago@aware.com.br') }
     'thiago@aware.com.br is an ok email' ;
 
-my $pagseguro = PagSeguro->new( 
-    email_cobranca => 'foo@bar.com.br', 
-    
+my $pagseguro = PagSeguro->new(
+    email_cobranca => 'foo@bar.com.br',
+
     cliente_nome => 'Nome do cliente',
     cliente_cep => '29200720',
     cliente_num => '12',

@@ -56,7 +56,7 @@ my $valid = <<HTML;
 
 <input name="email_cobranca" type="hidden" value="foo\@bar.com.br" />
 
-<input name="tipo_carrinho" type="hidden" value="CBR" />
+<input name="tipo" type="hidden" value="CBR" />
 
 <input name="tipo_frete" type="hidden" value="EN" />
 
@@ -106,7 +106,8 @@ my $valid = <<HTML;
 
 <input name="item_peso_2" type="hidden" value="0" />
 
-<input name="submit" type="hidden" value="https://p.simg.uol.com.br/out/pagseguro/i/botoes/pagamentos/99x61-pagar-assina.gif" />
+<input name="submit" type="image" src="https://p.simg.uol.com.br/out/pagseguro/i
+/botoes/pagamentos/99x61-pagar-assina.gif" />
 </form>
 HTML
 

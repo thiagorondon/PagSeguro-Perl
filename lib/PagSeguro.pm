@@ -73,7 +73,7 @@ has fields => (
                 { name => $_, type => 'hidden', value => $self->$_ } )
               if $self->$_;
           } (
-            qw[url_action email_cobranca tipo_carrinho tipo_frete moeda
+            qw[url_action email_cobranca tipo tipo_frete moeda
               cliente_nome cliente_cep cliente_end cliente_num cliente_compl
               cliente_bairro cliente_cidade cliente_uf cliente_pais cliente_ddd
               cliente_tel cliente_email]
@@ -97,9 +97,9 @@ has fields => (
         push(
             @fields,
             {
-                name  => 'submit',
-                type  => 'hidden',
-                value => $self->image_submit
+                name => 'submit',
+                type => 'image',
+                src  => $self->image_submit
             }
         );
 
@@ -117,8 +117,11 @@ sub make_form {
                 sub {
                     $_->select('input')
                       ->add_to_attribute( name => $field->{name} )
-                      ->then->add_to_attribute( type  => $field->{type} )
-                      ->then->add_to_attribute( value => $field->{value} );
+                      ->then->add_to_attribute( type => $field->{type} )
+                      ->then->add_to_attribute(
+                        defined( $field->{value} )
+                        ? ( value => $field->{value} )
+                        : ( src => $field->{src} ) );
                   }
               } $self->fields
         ]

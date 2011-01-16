@@ -14,7 +14,7 @@ package main;
 
 my $obj = new Base::Test( email_cobranca => 'foo@bar.com' );
 
-for my $item (qw[ref_transacao email_cobranca tipo_frete tipo_carrinho moeda]) {
+for my $item (qw[ref_transacao email_cobranca tipo_frete tipo moeda]) {
     ok( $obj->can($item) );
 }
 

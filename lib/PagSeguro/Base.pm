@@ -26,7 +26,7 @@ has tipo_frete => (
 
 enum 'TipoCarrinho' => qw(CBR CP);
 
-has tipo_carrinho => (
+has tipo => (
     is      => 'ro',
     isa     => 'TipoCarrinho',
     default => 'CBR'

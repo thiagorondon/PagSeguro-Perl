@@ -176,7 +176,11 @@ PagSeguro -  Biblioteca PagSeguro Perl
 
 =head1 DESCRIPTION
 
-(TODO)
+Esta é uma simples "biblioteca" para facilitar a crianção do formulário necessario para o envio dos dados de compra, pagamentou ou doação para o intermediador PagSeguro.
+
+Para maiores informações, acesse: http://pagseguro.uol.com.br/
+
+Eu mantenho este módulo no meu repositório do github: http://github.com/maluco/PagSeguro-Perl/
 
 =head1 AUTHOR
 

@@ -53,7 +53,7 @@ has zoom => (
         my ( $form_name, $url_action ) =
           ( $self->form_name, $self->url_action );
         HTML::Zoom->from_html(<<HTML);
-<form class="$form_name" action="$url_action">
+<form class="$form_name" target="pagseguro" method="post" action="$url_action">
 <input />
 </form>
 HTML
@@ -73,7 +73,7 @@ has fields => (
                 { name => $_, type => 'hidden', value => $self->$_ } )
               if $self->$_;
           } (
-            qw[url_action email_cobranca tipo tipo_frete moeda
+            qw[email_cobranca tipo tipo_frete moeda
               cliente_nome cliente_cep cliente_end cliente_num cliente_compl
               cliente_bairro cliente_cidade cliente_uf cliente_pais cliente_ddd
               cliente_tel cliente_email]
@@ -154,7 +154,8 @@ PagSeguro -  Biblioteca PagSeguro Perl
         cliente_compl => 'Sala 109',
         cliente_bairro => 'Bairro do Cliente',
         cliente_cidade => 'Cidade do Cliente',
-        cliente_uf => 'MS'
+        cliente_uf => 'MS',
+        cliente_pais => 'Brasil',
         cliente_ddd => '67',
         cliente_tel => '23451234',
         cliente_email => 'emaildocliente@cliente.com.br'
